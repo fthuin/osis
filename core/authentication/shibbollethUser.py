@@ -29,6 +29,7 @@ from django.contrib.auth.middleware import RemoteUserMiddleware
 from django.contrib import auth
 from django.contrib.auth import backends
 from django.core.exceptions import ImproperlyConfigured
+from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect
 
 
@@ -144,6 +145,7 @@ def logout_with_delete_cookie(request):
         if key.startswith('_shibsession'):
             cookies_name = key
             break
-    response = HttpResponseRedirect('/logout/')
+    print(''.join(['Cookie Name : ',cookies_name,]))
+    response = HttpResponseRedirect(reverse('logout'))
     response.delete_cookie(cookies_name)
     return response

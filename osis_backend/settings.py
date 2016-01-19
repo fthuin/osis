@@ -123,7 +123,7 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = reverse_lazy('home')
 
 FIXTURE_DIRS = (
     '/core/fixtures/',
