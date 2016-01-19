@@ -36,8 +36,7 @@ urlpatterns = [
 
     # login / logout urls
     url(r'^login/$', login, name='login'),
-    url(r'^logout/$', logout_then_login, name='logout'),
-    url(r'^logout_with_delete_cookie/$',shibbollethUser.logout_with_delete_cookie,name='logout_with_delete_cookie'),
+    url(r'^logout/$', shibbollethUser.logout_with_delete_cookie, name='logout'),
 
     url(r'^studies/$', views.studies, name='studies'),
     url(r'^studies/assessements/$', views.assessements, name='assessements'),

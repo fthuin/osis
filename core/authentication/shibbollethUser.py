@@ -27,7 +27,7 @@ import subprocess
 from django.contrib.auth.backends import RemoteUserBackend
 from django.contrib.auth.middleware import RemoteUserMiddleware
 from django.contrib import auth
-from django.contrib.auth import backends
+from django.contrib.auth import backends, logout
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect
@@ -141,15 +141,13 @@ class ShibbollethUserMiddleware(RemoteUserMiddleware):
 def logout_with_delete_cookie(request):
     cookies = request.COOKIES
     cookies_name = 'cookies_name'
-    for key in cookies.keys():
-        print(''.join(['Key : ',key]))
-        if key.startswith('_shibsession'):
-            cookies_name = key
-            break
-    print(''.join(['Cookie Name : ',cookies_name,]))
+    logout(request)
     exe1 = ''.join(['wget ',settings.LOGOUT_EXTRA,' > /dev/null 2>&1'])
     subprocess.call(exe1,shell=True)
-    response = HttpResponseRedirect(reverse('logout'))
-    response.delete_cookie(cookies_name)
+    response = HttpResponseRedirect(reverse('home'))
+    for key in cookies.keys():
+        print(''.join(['Key : ',key]))
+        response.delete_cookie(key)
+    print(''.join(['Cookie Name : ',cookies_name,]))
     return response
 
