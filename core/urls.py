@@ -29,6 +29,7 @@ from django.contrib.auth.views import login,logout_then_login
 from . import views
 from . import exportUtils
 from . import uploadXlsUtils
+from core.authentication import shibbollethUser
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
@@ -36,6 +37,7 @@ urlpatterns = [
     # login / logout urls
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout_then_login, name='logout'),
+    url(r'^logout_with_delete_cookie/$',shibbollethUser.logout_with_delete_cookie,name='logout_with_delete_cookie'),
 
     url(r'^studies/$', views.studies, name='studies'),
     url(r'^studies/assessements/$', views.assessements, name='assessements'),
