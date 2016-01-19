@@ -23,7 +23,7 @@
 #    see http://www.gnu.org/licenses/.
 #
 ##############################################################################
-
+import subprocess
 from django.contrib.auth.backends import RemoteUserBackend
 from django.contrib.auth.middleware import RemoteUserMiddleware
 from django.contrib import auth
@@ -31,6 +31,7 @@ from django.contrib.auth import backends
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect
+from osis_backend import settings
 
 
 class ShibbollethUserBackend(RemoteUserBackend):
@@ -146,6 +147,8 @@ def logout_with_delete_cookie(request):
             cookies_name = key
             break
     print(''.join(['Cookie Name : ',cookies_name,]))
+    exe1 = ''.join(['wget ',settings.LOGOUT_EXTRA,' > /dev/null 2>&1'])
+    subprocess.call(exe1,shell=True)
     response = HttpResponseRedirect(reverse('logout'))
     response.delete_cookie(cookies_name)
     return response
