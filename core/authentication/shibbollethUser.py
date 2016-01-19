@@ -149,3 +149,4 @@ def logout_with_delete_cookie(request):
     response = HttpResponseRedirect(reverse('logout'))
     response.delete_cookie(cookies_name)
     return response
+

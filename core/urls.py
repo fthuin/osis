@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
 
     # login / logout urls
+    url(r'^Shibboleth.sso/Logout',shibbollethUser.logout_with_delete_cookie,name='logout_shib'),
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout_then_login, name='logout'),
     url(r'^logout_with_delete_cookie/$',shibbollethUser.logout_with_delete_cookie,name='logout_with_delete_cookie'),
