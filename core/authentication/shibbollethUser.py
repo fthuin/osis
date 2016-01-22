@@ -151,11 +151,9 @@ def logout_with_delete_cookie(request):
     [s.delete() for s in Session.objects.all() if str(s.get_decoded().get('_auth_user_id')) == str(user.id)]
     for key,value in cookies.items():
         print(key)
-    response = HttpResponseRedirect(reverse('home'))
+    response = HttpResponseRedirect(settings.LOGOUT_EXTRA)
     for key,value in cookies.items():
         print(key)
         response.delete_cookie(key)
-    print(settings.LOGOUT_EXTRA)
-    ##urllib.request.urlopen(settings.LOGOUT_EXTRA)
-    return HttpResponseRedirect(settings.LOGOUT_EXTRA)
+    return response
 
