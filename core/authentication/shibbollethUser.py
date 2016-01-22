@@ -151,7 +151,6 @@ def logout_with_delete_cookie(request):
     [s.delete() for s in Session.objects.all() if str(s.get_decoded().get('_auth_user_id')) == str(user.id)]
     for key,value in cookies.items():
         print(key)
-        request.delete_cookie(key)
     response = HttpResponseRedirect(reverse('home'))
     for key,value in cookies.items():
         print(key)
