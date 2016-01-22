@@ -33,7 +33,7 @@ from django.contrib.sessions.models import Session
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect
-from django.middleware import cache
+from django.core.cache import cache
 from pip._vendor.requests.packages import urllib3
 from osis_backend import settings
 
