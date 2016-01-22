@@ -150,6 +150,7 @@ def logout_with_delete_cookie(request):
     request.COOKIES = dict()
     response = HttpResponseRedirect(reverse('home'))
     response.COOKIES=dict()
-    urllib.request.urlopen(settings.LOGOUT_EXTRA)
-    return response
+    print(settings.LOGOUT_EXTRA)
+    ##urllib.request.urlopen(settings.LOGOUT_EXTRA)
+    return HttpResponseRedirect(settings.LOGOUT_EXTRA)
 
