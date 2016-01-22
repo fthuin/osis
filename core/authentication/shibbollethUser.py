@@ -147,7 +147,9 @@ def logout_with_delete_cookie(request):
     user = request.user
     print(''.join(['user = ',user.get_username(),' id : ',str(user.id)]))
     logout(request)
+    del request.session[request.session._session_key]
     request.session.flush()
+    del request.session[request.session._session_key]
     [print(str(s.get_decoded().get('_auth_user_id'))) for s in Session.objects.all()]
     [s.delete() for s in Session.objects.all() if str(s.get_decoded().get('_auth_user_id')) == str(user.id)]
     for key,value in cookies.items():
