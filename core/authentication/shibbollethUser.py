@@ -142,14 +142,20 @@ class ShibbollethUserMiddleware(RemoteUserMiddleware):
 
 
 def logout_with_delete_cookie(request):
+    cookies = request.COOKIES
     user = request.user
-    print('user = '+user.get_username())
+    print('user = '+user.get_username()+' id : '+user.id)
     logout(request)
     request.session.flush()
+    [print(s.get_decoded().get('_auth_user_id')) for s in Session.objects.all()]
     [s.delete() for s in Session.objects.all() if str(s.get_decoded().get('_auth_user_id')) == str(user.id)]
-    request.COOKIES = dict()
+    for key,value in cookies.items():
+        print(key)
+        request.delete_cookie(key)
     response = HttpResponseRedirect(reverse('home'))
-    response.COOKIES=dict()
+    for key,value in cookies.items():
+        print(key)
+        response.delete_cookie(key)
     print(settings.LOGOUT_EXTRA)
     ##urllib.request.urlopen(settings.LOGOUT_EXTRA)
     return HttpResponseRedirect(settings.LOGOUT_EXTRA)
