@@ -1,3 +1,4 @@
+# coding: utf8
 ##############################################################################
 #
 #    OSIS stands for Open Student Information System. It's an application
@@ -44,4 +45,3 @@ class LearningUnit(models.Model):
 
     def __str__(self):
         return u"%s - %s" % (self.acronym, self.title)
-

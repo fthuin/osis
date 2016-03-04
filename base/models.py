@@ -1,3 +1,4 @@
+# coding: utf8
 ##############################################################################
 #
 #    OSIS stands for Open Student Information System. It's an application
@@ -750,4 +751,3 @@ class ExamEnrollmentHistory(models.Model):
         exam_enrollment_history.justification_final = justification
         exam_enrollment_history.person = Person.find_person_by_user(user)
         exam_enrollment_history.save()
-
