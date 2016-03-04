@@ -28,7 +28,7 @@ from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-
+from django.shortcuts import get_object_or_404
 
 class PersonAdmin(admin.ModelAdmin):
     list_display = ('first_name' , 'middle_name', 'last_name', 'username','email', 'gender','global_id', 'national_id',
@@ -46,6 +46,10 @@ class Person(models.Model):
         ('M', _('Male')),
         ('U', _('Unknown')))
 
+    LANGUAGES_CHOICES = (
+        ('FR',_('Français')),
+        ('EN',_('English')))
+
     external_id  = models.CharField(max_length=100, blank=True, null=True)
     changed      = models.DateTimeField(null=True)
     user         = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
@@ -58,6 +62,7 @@ class Person(models.Model):
     email        = models.EmailField(max_length=255, blank=True, null=True)
     phone        = models.CharField(max_length=30, blank=True, null=True)
     phone_mobile = models.CharField(max_length=30, blank=True, null=True)
+    language     = models.CharField(max_length=30, null=True, choices=LANGUAGES_CHOICES, default='FR')
 
     def username(self):
         if self.user is None:
@@ -83,4 +88,4 @@ def find_person(person_id):
 
 
 def find_person_by_user(user):
-    return Person.objects.get(user=user)
+    return get_object_or_404(Person, user=user)
