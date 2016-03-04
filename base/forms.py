@@ -54,3 +54,7 @@ class AcademicCalendarForm(ModelForm):
         model = mdl.academic_calendar.AcademicCalendar
         fields = ['start_date', 'end_date', 'title', 'highlight_title', 'highlight_description', 'highlight_shortcut']
 
+class PersonForm(ModelForm):
+    class Meta:
+        model = mdl.person.Person
+        fields = ['external_id', 'user', 'global_id', 'gender', 'national_id', 'first_name', 'middle_name', 'last_name', 'email', 'phone', 'phone_mobile', 'language']
