@@ -26,7 +26,7 @@
 ##############################################################################
 from django.db import models
 from django.contrib import admin
-
+from base.models import structure, organization_address
 
 class OrganizationAdmin(admin.ModelAdmin):
     list_display = ('name', 'acronym', 'changed')
@@ -45,6 +45,14 @@ class Organization(models.Model):
     def __str__(self):
         return self.name
 
+    def address(self):
+        return organization_address.find_by_organization(self)
+
+    def find_structure(self):
+        return structure.find_by_organization(self)
+
+    def find_structure_tree(self):
+        return structure.find_tree_by_organization(self)
 
 def find_by_id(organization_id):
     return Organization.objects.get(pk=organization_id)
