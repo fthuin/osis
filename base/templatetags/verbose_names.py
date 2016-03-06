@@ -24,38 +24,13 @@
 #    see http://www.gnu.org/licenses/.
 #
 ##############################################################################
-from django import forms
-from django.forms import ModelForm
-from base import models as mdl
 
+from django import template
+register = template.Library()
 
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
-
-
-class ScoreFileForm(forms.Form):
-    file = forms.FileField()
-
-
-class OrganizationForm(ModelForm):
-    class Meta:
-        model = mdl.organization.Organization
-        fields = ['acronym', 'name', 'website', 'reference']
-
-
-class AcademicCalendarForm(ModelForm):
-    start_date = forms.DateField(widget=forms.DateInput(format = '%d/%m/%Y'),
-                                 input_formats=('%d/%m/%Y',),
-                                 required=False)
-    end_date = forms.DateField(widget=forms.DateInput(format = '%d/%m/%Y'),
-                               input_formats=('%d/%m/%Y',),
-                               required=False)
-    class Meta:
-        model = mdl.academic_calendar.AcademicCalendar
-        fields = ['start_date', 'end_date', 'title', 'highlight_title', 'highlight_description', 'highlight_shortcut']
-
-class PersonUpdateForm(ModelForm):
-    class Meta:
-        model = mdl.person.Person
-        fields = ['language']
+@register.simple_tag
+def get_verbose_field_name(instance, field_name):
+    """
+    Returns verbose_name for a field.
+    """
+    return instance._meta.get_field(field_name).verbose_name.title()
