@@ -27,8 +27,10 @@
 from django.db import models
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from base.models import person, session_exam, learning_unit_enrollment
-
+from base.models import person
+from base.models.session_exam import SessionExam
+from base.models.learning_unit_enrollment import LearningUnitEnrollment
+from base.models.person import Person
 
 JUSTIFICATION_TYPES = (
     ('ABSENT', _('Absent')),
@@ -60,8 +62,8 @@ class ExamEnrollment(models.Model):
     justification_reencoded  = models.CharField(max_length=20, blank=True, null=True, choices=JUSTIFICATION_TYPES)
     justification_final      = models.CharField(max_length=20, blank=True, null=True, choices=JUSTIFICATION_TYPES)
     encoding_status          = models.CharField(max_length=9, blank=True, null=True, choices=ENCODING_STATUS_LIST)
-    session_exam             = models.ForeignKey(session_exam.SessionExam)
-    learning_unit_enrollment = models.ForeignKey(learning_unit_enrollment.LearningUnitEnrollment)
+    session_exam             = models.ForeignKey(SessionExam)
+    learning_unit_enrollment = models.ForeignKey(LearningUnitEnrollment)
 
     def student(self):
         return self.learning_unit_enrollment.student
@@ -144,7 +146,7 @@ class ExamEnrollmentHistoryAdmin(admin.ModelAdmin):
 
 class ExamEnrollmentHistory(models.Model):
     exam_enrollment     = models.ForeignKey(ExamEnrollment)
-    person              = models.ForeignKey(person.Person)
+    person              = models.ForeignKey(Person)
     score_final         = models.DecimalField(max_digits=4, decimal_places=2, null=True)
     justification_final = models.CharField(max_length=20, null=True, choices=JUSTIFICATION_TYPES)
     modification_date   = models.DateTimeField(auto_now=True)

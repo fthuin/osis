@@ -26,7 +26,7 @@
 ##############################################################################
 from django.db import models
 from django.contrib import admin
-from base.models import person
+from base.models.person import Person
 
 
 class PersonAddressAdmin(admin.ModelAdmin):
@@ -35,7 +35,7 @@ class PersonAddressAdmin(admin.ModelAdmin):
 
 
 class PersonAddress(models.Model):
-    person      = models.ForeignKey(person.Person)
+    person      = models.ForeignKey(Person)
     label       = models.CharField(max_length=20)
     location    = models.CharField(max_length=255)
     postal_code = models.CharField(max_length=20)

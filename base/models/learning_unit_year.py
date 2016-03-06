@@ -26,8 +26,8 @@
 ##############################################################################
 from django.db import models
 from django.contrib import admin
-from base.models import academic_year, learning_unit
-
+from base.models.academic_year import AcademicYear
+from base.models.learning_unit import LearningUnit
 
 class LearningUnitYearAdmin(admin.ModelAdmin):
     list_display = ('acronym', 'title', 'academic_year', 'credits', 'changed')
@@ -43,8 +43,8 @@ class LearningUnitYear(models.Model):
     title          = models.CharField(max_length=255)
     credits        = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     decimal_scores = models.BooleanField(default=False)
-    academic_year  = models.ForeignKey(academic_year.AcademicYear)
-    learning_unit  = models.ForeignKey(learning_unit.LearningUnit)
+    academic_year  = models.ForeignKey(AcademicYear)
+    learning_unit  = models.ForeignKey(LearningUnit)
 
     def __str__(self):
         return u"%s - %s" % (self.academic_year,self.learning_unit)

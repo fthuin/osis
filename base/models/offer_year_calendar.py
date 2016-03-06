@@ -29,7 +29,9 @@ from django.db import models
 from django.utils import timezone
 from django.contrib import admin
 from base.models.academic_calendar import EVENT_TYPE
-from base.models import academic_calendar, offer_year, program_manager
+from base.models import offer_year, program_manager
+from base.models.academic_calendar import AcademicCalendar
+from base.models.offer_year import OfferYear
 from base.utils import send_mail
 
 
@@ -42,8 +44,8 @@ class OfferYearCalendarAdmin(admin.ModelAdmin):
 class OfferYearCalendar(models.Model):
     external_id       = models.CharField(max_length=100, blank=True, null=True)
     changed           = models.DateTimeField(null=True)
-    academic_calendar = models.ForeignKey(academic_calendar.AcademicCalendar)
-    offer_year        = models.ForeignKey(offer_year.OfferYear)
+    academic_calendar = models.ForeignKey(AcademicCalendar)
+    offer_year        = models.ForeignKey(OfferYear)
     event_type        = models.CharField(max_length=50, choices=EVENT_TYPE)
     start_date        = models.DateField(auto_now=False, blank=True, null=True, auto_now_add=False)
     end_date          = models.DateField(auto_now=False, blank=True, null=True, auto_now_add=False)

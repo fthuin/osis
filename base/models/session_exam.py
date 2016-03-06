@@ -27,8 +27,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
-from base.models import attribution, offer_year_calendar, learning_unit_year
-
+from base.models import offer_year_calendar, exam_enrollment
+from base.models.attribution import Attribution
 
 class SessionExamAdmin(admin.ModelAdmin):
     list_display = ('learning_unit_year', 'number_session', 'status', 'changed')
@@ -56,13 +56,13 @@ class SessionExam(models.Model):
 
     @property
     def offer(self):
-        for rec_exam_enrollment in ExamEnrollment.find_exam_enrollments(self):
+        for rec_exam_enrollment in exam_enrollment.find_exam_enrollments_by_session(self):
             return rec_exam_enrollment.learning_unit_enrollment.offer
         return None
 
     @property
     def progress(self):
-        enrollments = list(ExamEnrollment.find_exam_enrollments(self))
+        enrollments = list(exam_enrollment.find_exam_enrollments_by_session(self))
 
         if enrollments:
             progress = 0
@@ -85,7 +85,7 @@ def find_session_by_id(session_exam_id):
 
 
 def find_sessions_by_tutor(tutor, academic_year):
-    learning_units = attribution.Attribution.objects.filter(tutor=tutor).values('learning_unit')
+    learning_units = Attribution.objects.filter(tutor=tutor).values('learning_unit')
     return SessionExam.objects.filter(~models.Q(status='IDLE')) \
         .filter(learning_unit_year__academic_year=academic_year) \
         .filter(learning_unit_year__learning_unit__in=learning_units)

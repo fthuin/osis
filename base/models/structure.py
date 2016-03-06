@@ -26,7 +26,7 @@
 ##############################################################################
 from django.db import models
 from django.contrib import admin
-
+from base.models.organization import Organization
 
 class StructureAdmin(admin.ModelAdmin):
     list_display = ('acronym', 'title', 'part_of', 'changed')
@@ -97,7 +97,3 @@ def find_structure_hierarchy(struc):
         for t in Structure.objects.filter(part_of=structure):
             tags.append(t.serializable_object())
     return tags
-
-
-def find_by_acronym(acronym):
-    return Structure.objects.get(acronym=acronym.strip())

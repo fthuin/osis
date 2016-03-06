@@ -26,6 +26,7 @@
 ##############################################################################
 from django.db import models
 from django.contrib import admin
+from base.models.structure import Structure
 
 
 class OfferAdmin(admin.ModelAdmin):

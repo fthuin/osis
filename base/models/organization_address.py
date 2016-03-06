@@ -26,7 +26,7 @@
 ##############################################################################
 from django.db import models
 from django.contrib import admin
-from base.models import organization
+from base.models.organization import Organization
 
 
 class OrganizationAddressAdmin(admin.ModelAdmin):
@@ -35,7 +35,7 @@ class OrganizationAddressAdmin(admin.ModelAdmin):
 
 
 class OrganizationAddress(models.Model):
-    organization = models.ForeignKey(organization.Organization)
+    organization = models.ForeignKey(Organization)
     label        = models.CharField(max_length=20, blank=True, null=True)
     location     = models.CharField(max_length=255, blank=True, null=True)
     postal_code  = models.CharField(max_length=20, blank=True, null=True)
