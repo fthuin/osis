@@ -1,4 +1,4 @@
-# coding: utf8
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OSIS stands for Open Student Information System. It's an application
@@ -25,11 +25,11 @@
 #
 ##############################################################################
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import get_object_or_404
 
 class PersonAdmin(admin.ModelAdmin):
     list_display = ('first_name' , 'middle_name', 'last_name', 'username','email', 'gender','global_id', 'national_id',
@@ -51,19 +51,19 @@ class Person(models.Model):
         ('FR',_('Français')),
         ('EN',_('English')))
 
-    external_id  = models.CharField(max_length=100, blank=True, null=True)
-    changed      = models.DateTimeField(null=True)
-    user         = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    global_id    = models.CharField(max_length=10, blank=True, null=True)
-    gender       = models.CharField(max_length=1, blank=True, null=True, choices=GENDER_CHOICES, default='U')
-    national_id  = models.CharField(max_length=25, blank=True, null=True)
-    first_name   = models.CharField(max_length=50, blank=True, null=True)
-    middle_name  = models.CharField(max_length=50, blank=True, null=True)
-    last_name    = models.CharField(max_length=50, blank=True, null=True)
-    email        = models.EmailField(max_length=255, blank=True, null=True)
-    phone        = models.CharField(max_length=30, blank=True, null=True)
-    phone_mobile = models.CharField(max_length=30, blank=True, null=True)
-    language     = models.CharField(max_length=30, null=True, choices=LANGUAGES_CHOICES, default='FR')
+    external_id  = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("External ID"))
+    changed      = models.DateTimeField(null=True, verbose_name=_("Changed at"))
+    user         = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("User"))
+    global_id    = models.CharField(max_length=10, blank=True, null=True, verbose_name=_("Global ID"))
+    gender       = models.CharField(max_length=1, blank=True, null=True, choices=GENDER_CHOICES, default='U', verbose_name=_("Gender"))
+    national_id  = models.CharField(max_length=25, blank=True, null=True, verbose_name=_("National ID"))
+    first_name   = models.CharField(max_length=50, blank=True, null=True, verbose_name=_("First name"))
+    middle_name  = models.CharField(max_length=50, blank=True, null=True, verbose_name=_("Middle name"))
+    last_name    = models.CharField(max_length=50, blank=True, null=True, verbose_name=_("Last name"))
+    email        = models.EmailField(max_length=255, blank=True, null=True, verbose_name=_("Email address"))
+    phone        = models.CharField(max_length=30, blank=True, null=True, verbose_name=_("Phone number"))
+    phone_mobile = models.CharField(max_length=30, blank=True, null=True, verbose_name=_("Mobile phone number"))
+    language     = models.CharField(max_length=30, null=True, choices=LANGUAGES_CHOICES, default='FR', verbose_name=_("Language"))
 
     def username(self):
         if self.user is None:
@@ -89,4 +89,11 @@ def find_person(person_id):
 
 
 def find_person_by_user(user):
-    return get_object_or_404(Person, user=user)
+    '''
+    Returns the Person corresponding to the User given as parameter if exists.
+    Otherwise, returns None.
+    '''
+    try:
+        return Person.objects.get(user=user)
+    except ObjectDoesNotExist:
+        return None
