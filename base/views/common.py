@@ -1,4 +1,4 @@
-# coding: utf8
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OSIS stands for Open Student Information System. It's an application
@@ -24,10 +24,13 @@
 #    see http://www.gnu.org/licenses/.
 #
 ##############################################################################
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-
+from django.core import serializers
+from base.forms import PersonUpdateForm
 from base import models as mdl
+from django.utils.translation import ugettext_lazy as _
 
 
 def page_not_found(request):
@@ -69,5 +72,30 @@ def academic_year(request):
 
 @login_required
 def profile(request):
-    person = mdl.person.Person.find_person_by_user(request.user)
-    return render(request, "profile.html", {'person': person})
+    person = mdl.person.find_person_by_user(request.user)
+    if request.method == 'POST':
+        form = PersonUpdateForm(request.POST)
+        if form.is_valid():
+            language = form.cleaned_data['language']
+            if person:
+                person.language = language
+                person.save()
+            else:
+                person = mdl.person.Person(user=request.user, language=language)
+                person = person.save()
+            messages.success(request, _('Account details successfully updated!'))
+    person = mdl.person.find_person_by_user(request.user)
+    form = PersonUpdateForm(instance=person)
+    fields = []
+    if person:
+        for field in mdl.person.Person._meta.get_fields():
+            field_split = str(field).split('.')
+            field = field_split[len(field_split) - 1]
+            try:
+                fields.append((field, getattr(person, str(field))))
+            except AttributeError:
+                print(str(field))
+                pass
+    return render(request, "profile.html", {'form':form,
+                                            'person': person,
+                                            'fields': fields})
