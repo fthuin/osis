@@ -40,7 +40,7 @@ class Structure(models.Model):
     changed      = models.DateTimeField(null=True)
     acronym      = models.CharField(max_length=15)
     title        = models.CharField(max_length=255)
-    organization = models.ForeignKey('Organization', null=True)
+    organization = models.ForeignKey(Organization, null=True)
     part_of      = models.ForeignKey('self', null=True, blank=True)
 
     def children(self):
@@ -55,10 +55,19 @@ class Structure(models.Model):
     def __str__(self):
         return u"%s - %s" % (self.acronym, self.title)
 
+    def find_tree_by_structure(self):
+        structure= Structure.objects.get(pk=self.id)
+        tags = []
+        if not structure is None:
+            for t in Structure.objects.filter(part_of=structure):
+                tags.append(t.serializable_object())
+        return tags
 
 def find_structures():
     return Structure.objects.all().order_by('acronym')
 
+def find_by_acronym(acronym):
+    return Structure.objects.get(acronym=acronym.strip())
 
 def find_by_id(structure_id):
     return Structure.objects.get(pk=structure_id)
