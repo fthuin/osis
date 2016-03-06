@@ -1,0 +1,3 @@
+[submodule "bootstrapform"]
+	path = bootstrapform
+	url = https://github.com/tzangms/django-bootstrap-form.git
