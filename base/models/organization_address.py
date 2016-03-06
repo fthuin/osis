@@ -36,11 +36,11 @@ class OrganizationAddressAdmin(admin.ModelAdmin):
 
 class OrganizationAddress(models.Model):
     organization = models.ForeignKey(organization.Organization)
-    label        = models.CharField(max_length=20)
-    location     = models.CharField(max_length=255)
-    postal_code  = models.CharField(max_length=20)
-    city         = models.CharField(max_length=255)
-    country      = models.CharField(max_length=255)
+    label        = models.CharField(max_length=20, blank=True, null=True)
+    location     = models.CharField(max_length=255, blank=True, null=True)
+    postal_code  = models.CharField(max_length=20, blank=True, null=True)
+    city         = models.CharField(max_length=255, blank=True, null=True)
+    country      = models.CharField(max_length=255, blank=True, null=True)
 
 
 def find_by_organization(organization):
