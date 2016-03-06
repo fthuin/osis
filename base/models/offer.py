@@ -40,6 +40,10 @@ class Offer(models.Model):
     acronym     = models.CharField(max_length=15)
     title       = models.CharField(max_length=255)
 
+    @property
+    def structure(self):
+        return Structure.objects.filter(id=self.id).structure
+
     def save(self, *args, **kwargs):
         self.acronym = self.acronym.upper()
         super(Offer, self).save(*args, **kwargs)
