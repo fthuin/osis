@@ -49,6 +49,12 @@ class LearningUnitYear(models.Model):
     def __str__(self):
         return u"%s - %s" % (self.academic_year,self.learning_unit)
 
+def find_offer_enrollments(learning_unit_year_id):
+    learning_unit_enrollment_list= LearningUnitEnrollment.objects.filter(learning_unit_year=learning_unit_year_id)
+    offer_list = []
+    for lue in learning_unit_enrollment_list:
+        offer_list.append(lue.offer_enrollment)
+    return offer_list
 
 def find_learning_unit_years_by_academic_year(academic_yr):
     return LearningUnitYear.objects.filter(academic_year=int(academic_yr))
