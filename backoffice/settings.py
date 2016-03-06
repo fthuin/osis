@@ -1,4 +1,4 @@
-# coding: utf8
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OSIS stands for Open Student Information System. It's an application
@@ -54,7 +54,7 @@ INSTALLED_APPS = (
     'django_jenkins',
     'base',
     'internship',
-    'bootstrapform',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,7 +98,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'osis_backend_dev',
         'USER': 'osis_usr',
-        'PASSWORD': 'osis',
+        'PASSWORD': 'florian',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     },
