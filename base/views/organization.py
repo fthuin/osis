@@ -70,7 +70,7 @@ def organization_new(request):
 
 def organization_save(request, organization_id):
     form = OrganizationForm(data=request.POST)
-    if id:
+    if organization_id:
         organization = mdl.organization.find_by_id(organization_id)
     else:
         organization = mdl.organization.Organization()
