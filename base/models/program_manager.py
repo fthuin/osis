@@ -45,7 +45,7 @@ class ProgrammeManager(models.Model):
         return self.__str__()
 
     def __str__(self):
-        return u"%s - %s" % (self.person, self.offer_year)
+        return u"%s - %s - %s" % (self.person, self.faculty, self.offer_year)
 
 
 def find_offer_year_by_user(user):
