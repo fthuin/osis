@@ -54,6 +54,25 @@ class SessionExam(models.Model):
     def __str__(self):
         return u"%s - %d" % (self.learning_unit_year, self.number_session)
 
+    @property
+    def offer(self):
+        for rec_exam_enrollment in ExamEnrollment.find_exam_enrollments(self):
+            return rec_exam_enrollment.learning_unit_enrollment.offer
+        return None
+
+    @property
+    def progress(self):
+        enrollments = list(ExamEnrollment.find_exam_enrollments(self))
+
+        if enrollments:
+            progress = 0
+            for e in enrollments:
+                if e.score_final is not None or e.justification_final is not None:
+                    progress = progress +1
+            return str(progress) + "/"+ str(len(enrollments))
+        else:
+            return "0/0"
+
 
 def current_session_exam():
     offer_calendar = offer_year_calendar.offer_year_calendar_by_current_session_exam()
