@@ -27,7 +27,7 @@
 
 from django.db import models
 from django.contrib import admin
-from base.models import person, offer_year
+from base.models import person
 
 
 class ProgrammeManagerAdmin(admin.ModelAdmin):
@@ -36,9 +36,9 @@ class ProgrammeManagerAdmin(admin.ModelAdmin):
 
 class ProgrammeManager(models.Model):
     changed = models.DateTimeField(null=True)
-    person  = models.ForeignKey(person.Person)
-    faculty = models.ForeignKey(Structure)
-    offer_year = models.ForeignKey(offer_year.OfferYear, blank=True, null = True)
+    person  = models.ForeignKey('Person')
+    faculty = models.ForeignKey('Structure')
+    offer_year = models.ForeignKey('OfferYear', blank=True, null = True)
 
     @property
     def name(self):

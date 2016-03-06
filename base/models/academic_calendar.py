@@ -70,7 +70,7 @@ class AcademicCalendar(models.Model):
         return u"%s %s" % (self.academic_year, self.title)
 
     # FIXME: This method was imported from models.py, I don't know if it is
-    # still useful. @fthuin
+    # still useful. Don't forget the import commented. @fthuin
     # def save(self,  *args, **kwargs):
     #     new = False
     #     start_date_before_change = None

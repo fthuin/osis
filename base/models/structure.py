@@ -26,7 +26,6 @@
 ##############################################################################
 from django.db import models
 from django.contrib import admin
-from base.models.organization import Organization
 
 class StructureAdmin(admin.ModelAdmin):
     list_display = ('acronym', 'title', 'part_of', 'changed')
@@ -40,7 +39,7 @@ class Structure(models.Model):
     changed      = models.DateTimeField(null=True)
     acronym      = models.CharField(max_length=15)
     title        = models.CharField(max_length=255)
-    organization = models.ForeignKey(Organization, null=True)
+    organization = models.ForeignKey('Organization', null=True)
     part_of      = models.ForeignKey('self', null=True, blank=True)
 
     def children(self):

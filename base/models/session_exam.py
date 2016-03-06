@@ -48,8 +48,8 @@ class SessionExam(models.Model):
     changed             = models.DateTimeField(null=True)
     number_session      = models.IntegerField()
     status              = models.CharField(max_length=10,choices=SESSION_STATUS)
-    learning_unit_year  = models.ForeignKey(learning_unit_year.LearningUnitYear)
-    offer_year_calendar = models.ForeignKey(offer_year_calendar.OfferYearCalendar)
+    learning_unit_year  = models.ForeignKey('LearningUnitYear')
+    offer_year_calendar = models.ForeignKey('OfferYearCalendar')
 
     def __str__(self):
         return u"%s - %d" % (self.learning_unit_year, self.number_session)

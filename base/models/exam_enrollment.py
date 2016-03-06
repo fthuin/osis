@@ -28,8 +28,6 @@ from django.db import models
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from base.models import person
-from base.models.session_exam import SessionExam
-from base.models.learning_unit_enrollment import LearningUnitEnrollment
 from base.models.person import Person
 
 JUSTIFICATION_TYPES = (
@@ -62,8 +60,8 @@ class ExamEnrollment(models.Model):
     justification_reencoded  = models.CharField(max_length=20, blank=True, null=True, choices=JUSTIFICATION_TYPES)
     justification_final      = models.CharField(max_length=20, blank=True, null=True, choices=JUSTIFICATION_TYPES)
     encoding_status          = models.CharField(max_length=9, blank=True, null=True, choices=ENCODING_STATUS_LIST)
-    session_exam             = models.ForeignKey(SessionExam)
-    learning_unit_enrollment = models.ForeignKey(LearningUnitEnrollment)
+    session_exam             = models.ForeignKey('SessionExam')
+    learning_unit_enrollment = models.ForeignKey('LearningUnitEnrollment')
 
     def student(self):
         return self.learning_unit_enrollment.student

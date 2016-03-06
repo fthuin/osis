@@ -26,9 +26,6 @@
 ##############################################################################
 from django.db import models
 from django.contrib import admin
-from base.models.learning_unit_year import LearningUnitYear
-from base.models.offer_enrollment import OfferEnrollment
-
 
 class LearningUnitEnrollmentAdmin(admin.ModelAdmin):
     list_display = ('student', 'learning_unit_year', 'date_enrollment', 'changed')
@@ -41,8 +38,8 @@ class LearningUnitEnrollment(models.Model):
     external_id        = models.CharField(max_length=100, blank=True, null=True)
     changed            = models.DateTimeField(null=True)
     date_enrollment    = models.DateField()
-    learning_unit_year = models.ForeignKey(LearningUnitYear)
-    offer_enrollment   = models.ForeignKey(OfferEnrollment)
+    learning_unit_year = models.ForeignKey('LearningUnitYear')
+    offer_enrollment   = models.ForeignKey('OfferEnrollment')
 
     @property
     def student(self):

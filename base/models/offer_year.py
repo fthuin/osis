@@ -27,9 +27,6 @@
 from django.db import models
 from django.contrib import admin
 from base.models import offer
-from base.models.academic_year import AcademicYear
-from base.models.structure import Structure
-from base.models.offer_year_calendar import OfferYearCalendar
 
 class OfferYearAdmin(admin.ModelAdmin):
     list_display = ('offer', 'parent', 'title', 'academic_year', 'changed')
@@ -41,11 +38,11 @@ class OfferYearAdmin(admin.ModelAdmin):
 class OfferYear(models.Model):
     external_id = models.CharField(max_length=100, blank=True, null=True)
     changed = models.DateTimeField(null=True)
-    offer = models.ForeignKey(offer.Offer)
-    academic_year = models.ForeignKey(AcademicYear)
+    offer = models.ForeignKey('Offer')
+    academic_year = models.ForeignKey('AcademicYear')
     acronym = models.CharField(max_length=15)
     title = models.CharField(max_length=255)
-    structure = models.ForeignKey(Structure)
+    structure = models.ForeignKey('Structure')
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', db_index=True)
 
     def __str__(self):
@@ -83,6 +80,8 @@ class OfferYear(models.Model):
         return None
 
     def find_offer_year_calendar(self):
+        from django.apps import apps
+        OfferYearCalendar = apps.get_model('base', 'OfferYearCalendar')
         return OfferYearCalendar.objects.filter(offer_year=self,start_date__isnull=False,end_date__isnull=False).order_by('start_date','academic_calendar__title')
 
 
