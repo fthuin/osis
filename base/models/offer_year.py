@@ -80,6 +80,10 @@ class OfferYear(models.Model):
                                             academic_year=self.academic_year).exclude(id=self.id)
         return None
 
+    def find_offer_year_calendar(self):
+        return OfferYearCalendar.objects.filter(offer_year=self,start_date__isnull=False,end_date__isnull=False).order_by('start_date','academic_calendar__title')
+
+
 
 def find_offer_years_by_academic_year(academic_yr):
     return OfferYear.objects.filter(academic_year=int(academic_yr))
